@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
@@ -23,6 +20,8 @@ namespace Sudoku
                 {6, 7, 4, 9, 8, 5, 3, 1, 2}
             };
 
+        private readonly SodokuSolver _sodokuSolver = new SodokuSolver();
+
         private int[,] GenerateSodokuWithBlank(int i, int j)
         {
             int[,] input = (int[,])_goldenMaster.Clone();
@@ -35,54 +34,8 @@ namespace Sudoku
         {
             var input = GenerateSodokuWithBlank(0,0);
 
-            var solvedSodoku = SolveSodoku(input);
+            var solvedSodoku = _sodokuSolver.SolveSodoku(input);
             Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
-        }
-
-        private int[,] SolveSodoku(int[,] input)
-        {
-            var beingSolved = (int[,])input.Clone();
-            List<Tuple<int,int>> pointsToSolve = new List<Tuple<int, int>>();
-            for (int i = 0; i < input.GetLength(0); i++)
-            {
-                for (int j = 0; j < input.GetLength(1); j++)
-                {
-                    if (input[i, j] == 0)
-                    {
-                        pointsToSolve.Add(new Tuple<int, int>(i, j));
-                    }
-                }
-            }
-
-            foreach (Tuple<int, int> point in pointsToSolve)
-            {
-                List<int> possibleRowValues = GetPossibleRowValues(input, point.Item1);
-                if (possibleRowValues.Count == 1)
-                {
-                    beingSolved[point.Item1, point.Item2] = possibleRowValues[0];
-                }
-            }
-
-            return beingSolved;
-        }
-
-        private List<int> GetPossibleRowValues(int[,] input, int rowIndex)
-        {
-            int[] row = new int[9];
-            for (int i = 0; i < 9; i++)
-            {
-                row[i] = input[rowIndex, i];
-            }
-
-            List<int> possibleValues = new List<int>();
-            for (int i = 1; i < 10; i++)
-            {
-                if (!row.Contains(i))
-                {
-                    possibleValues.Add(i);
-                }
-            }
-            return possibleValues;
         }
 
         [TestCase()]
@@ -90,7 +43,7 @@ namespace Sudoku
         {
             int[,] input = GenerateSodokuWithBlank(0, 1);
 
-            var solvedSodoku = SolveSodoku(input);
+            var solvedSodoku = _sodokuSolver.SolveSodoku(input);
             Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
         }
     }
