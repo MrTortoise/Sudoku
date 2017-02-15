@@ -29,9 +29,19 @@ namespace Sudoku
             int[,] input = (int[,]) _goldenMaster.Clone();
             input[0, 0] = 0;
 
+            var solvedSodoku = input;
+            solvedSodoku[0, 0] = 4;
+            Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
+        }
+
+        [TestCase()]
+        public void GivenSodokuWithAnotherMissingValueSolve()
+        {
+            int[,] input = (int[,])_goldenMaster.Clone();
+            input[0, 1] = 0;
 
             var solvedSodoku = input;
-            //solvedSodoku[0, 0] = 4;
+            solvedSodoku[0, 1] = 6;
             Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
         }
     }
