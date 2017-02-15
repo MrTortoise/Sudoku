@@ -8,8 +8,53 @@ namespace Sudoku
     {
         public int[,] SolveSodoku(int[,] input)
         {
+            List<Tuple<int, int>> pointsToSolve = GetPointsToSolve(input);
+
+            var beingSolved = SolvePointAndRemoveFromPoints(input, pointsToSolve);
+            return beingSolved;
+        }
+
+        private int[,] SolvePointAndRemoveFromPoints(int[,] input, List<Tuple<int, int>> pointsToSolve)
+        {
             var beingSolved = (int[,])input.Clone();
-            List<Tuple<int,int>> pointsToSolve = new List<Tuple<int, int>>();
+            while (pointsToSolve.Any())
+            {
+                bool solvedSomething = false;
+                
+                foreach (Tuple<int, int> point in pointsToSolve)
+                {
+                    List<int> possibleRowValues = GetPossibleRowValues(beingSolved, point.Item1);
+                    if (possibleRowValues.Count == 1)
+                    {
+                        beingSolved[point.Item1, point.Item2] = possibleRowValues[0];
+                        pointsToSolve.Remove(point);
+                        solvedSomething = true;
+                        break;
+                    }
+
+                    List<int> possibleColumnValues = GetPossibleColumnValues(beingSolved, point.Item2);
+                    if (possibleColumnValues.Count == 1)
+                    {
+                        beingSolved[point.Item1, point.Item2] = possibleColumnValues[0];
+                        pointsToSolve.Remove(point);
+                        solvedSomething = true;
+                        break;
+                    }
+                }
+
+                if (!solvedSomething && pointsToSolve.Any())
+                {
+                    throw new ArgumentException("not a valid sodoku - failed to find a valid move", nameof(input));
+                }
+            }
+
+            return beingSolved;
+        }
+
+
+        private List<Tuple<int, int>> GetPointsToSolve(int[,] input)
+        {
+            List<Tuple<int, int>> pointsToSolve = new List<Tuple<int, int>>();
             for (int i = 0; i < input.GetLength(0); i++)
             {
                 for (int j = 0; j < input.GetLength(1); j++)
@@ -20,35 +65,7 @@ namespace Sudoku
                     }
                 }
             }
-            bool solvedSomething = false;
-            foreach (Tuple<int, int> point in pointsToSolve)
-            {
-                List<int> possibleRowValues = GetPossibleRowValues(input, point.Item1);
-                if (possibleRowValues.Count == 1)
-                {
-                    beingSolved[point.Item1, point.Item2] = possibleRowValues[0];
-                    solvedSomething = true;
-                }
-
-                List<int> possibleColumnValues = GetPossibleColumnValues(input, point.Item2);
-                if (possibleColumnValues.Count == 1)
-                {
-                    beingSolved[point.Item1, point.Item2] = possibleColumnValues[0];
-                    solvedSomething = true;
-                }
-            }
-
-            if (!solvedSomething && pointsToSolve.Any())
-            {
-                return new int[0,0];
-            }
-
-            if (pointsToSolve.Any())
-            {
-                beingSolved = SolveSodoku(beingSolved);
-            }
-
-            return beingSolved;
+            return pointsToSolve;
         }
 
         private List<int> GetPossibleColumnValues(int[,] input, int columnIndex)
