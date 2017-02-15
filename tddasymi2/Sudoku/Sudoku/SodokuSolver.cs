@@ -28,9 +28,35 @@ namespace Sudoku
                 {
                     beingSolved[point.Item1, point.Item2] = possibleRowValues[0];
                 }
+
+                List<int> possibleColumnValues = GetPossibleColumnValues(input, point.Item2);
+                if (possibleColumnValues.Count == 1)
+                {
+                    beingSolved[point.Item1, point.Item2] = possibleColumnValues[0];
+                }
             }
 
             return beingSolved;
+        }
+
+        private List<int> GetPossibleColumnValues(int[,] input, int columnIndex)
+        {
+            int[] column = new int[9];
+            for (int i = 0; i < 9; i++)
+            {
+                column[i] = input[i, columnIndex];
+            }
+
+            List<int> possibleValues = new List<int>();
+            for (int i = 1; i < 10; i++)
+            {
+                if (!column.Contains(i))
+                {
+                    possibleValues.Add(i);
+                }
+            }
+
+            return possibleValues;
         }
 
         private List<int> GetPossibleRowValues(int[,] input, int rowIndex)
