@@ -4,11 +4,14 @@ namespace Sudoku
     {
         public string CompleteRow(string inputRow)
         {
-            if (!inputRow.Contains("1"))
+            for (int i = 1; i < 10; i++)
             {
-                return inputRow.Replace("_", "1");
+                if (!inputRow.Contains(i.ToString()))
+                {
+                    return inputRow.Replace("_", i.ToString());
+                }
             }
-            return "123456789";
+            return "borked";
         }
     }
 }

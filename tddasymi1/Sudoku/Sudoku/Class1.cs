@@ -15,10 +15,11 @@ namespace Sudoku
         [TestCase("12345678_", "123456789")]
         [TestCase("_23456789", "123456789")]
         [TestCase("234_56789", "234156789")]
+        [TestCase("1345_6789", "134526789")]
         public void CompleteRowTests(string input, string expected)
         {
             string actual = _sudokuSolver.CompleteRow(input);
-            Assert.That(actual,Is.EqualTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }
