@@ -23,21 +23,28 @@ namespace Sudoku
                 {6, 7, 4, 9, 8, 5, 3, 1, 2}
             };
 
+        private int[,] GenerateSodokuWithBlank(int i, int j)
+        {
+            int[,] input = (int[,])_goldenMaster.Clone();
+            input[i, j] = 0;
+            return input;
+        }
+
         [TestCase()]
         public void GivenSodokuWithOneMissingValueSolve()
         {
             var input = GenerateSodokuWithBlank(0,0);
 
-            var solvedSodoku = input;
-            solvedSodoku[0, 0] = 4;
+            var solvedSodoku = SolveSodoku(input);
             Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
         }
 
-        private int[,] GenerateSodokuWithBlank(int i, int j)
+        private int[,] SolveSodoku(int[,] input)
         {
-            int[,] input = (int[,]) _goldenMaster.Clone();
-            input[i, j] = 0;
-            return input;
+            var solvedSodoku = input;
+            solvedSodoku[0, 0] = 4;
+            solvedSodoku[0, 1] = 6;
+            return solvedSodoku;
         }
 
         [TestCase()]
@@ -45,8 +52,7 @@ namespace Sudoku
         {
             int[,] input = GenerateSodokuWithBlank(0, 1);
 
-            var solvedSodoku = input;
-            solvedSodoku[0, 1] = 6;
+            var solvedSodoku = SolveSodoku(input);
             Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
         }
     }
