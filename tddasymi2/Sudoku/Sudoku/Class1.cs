@@ -22,17 +22,17 @@ namespace Sudoku
 
         private readonly SodokuSolver _sodokuSolver = new SodokuSolver();
 
-        private int[,] GenerateSodokuWithBlank(int i, int j)
+        private int[,] GenerateSodokuWithBlank(int[,] input, int i, int j)
         {
-            int[,] input = (int[,])_goldenMaster.Clone();
-            input[i, j] = 0;
-            return input;
+            int[,] output = (int[,])input.Clone();
+            output[i, j] = 0;
+            return output;
         }
 
         [TestCase()]
         public void GivenSodokuWithOneMissingValueSolve()
         {
-            var input = GenerateSodokuWithBlank(0,0);
+            var input = GenerateSodokuWithBlank(_goldenMaster, 0,0);
 
             var solvedSodoku = _sodokuSolver.SolveSodoku(input);
             Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
@@ -41,7 +41,17 @@ namespace Sudoku
         [TestCase()]
         public void GivenSodokuWithAnotherMissingValueSolve()
         {
-            int[,] input = GenerateSodokuWithBlank(0, 1);
+            int[,] input = GenerateSodokuWithBlank(_goldenMaster, 0, 1);
+
+            var solvedSodoku = _sodokuSolver.SolveSodoku(input);
+            Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
+        }
+
+        [TestCase()]
+        public void GivenSodokuWithTwoMissingValuesSolve()
+        {
+            int[,] input = GenerateSodokuWithBlank(_goldenMaster, 0, 1);
+            input = GenerateSodokuWithBlank(input, 0, 2);
 
             var solvedSodoku = _sodokuSolver.SolveSodoku(input);
             Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
