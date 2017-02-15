@@ -30,6 +30,14 @@ namespace Sudoku
             string row = CompleteRow(inputRow);
             Assert.That(row,Is.EqualTo("123456789"));
         }
+
+        [Test]
+        public void CompleteNonSequentialRowWithOneMissingNumber()
+        {
+            string inputRow = "234_56789";
+            string row = CompleteRow(inputRow);
+            Assert.That(row,Is.EqualTo("234156789"));
+        }
         
     }
 }
