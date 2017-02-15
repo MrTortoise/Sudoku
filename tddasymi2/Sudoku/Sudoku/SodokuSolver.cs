@@ -47,15 +47,7 @@ namespace Sudoku
                 column[i] = input[i, columnIndex];
             }
 
-            List<int> possibleValues = new List<int>();
-            for (int i = 1; i < 10; i++)
-            {
-                if (!column.Contains(i))
-                {
-                    possibleValues.Add(i);
-                }
-            }
-
+            var possibleValues = GetPossibleValues(column);
             return possibleValues;
         }
 
@@ -67,6 +59,12 @@ namespace Sudoku
                 row[i] = input[rowIndex, i];
             }
 
+            var possibleValues = GetPossibleValues(row);
+            return possibleValues;
+        }
+
+        private List<int> GetPossibleValues(int[] row)
+        {
             List<int> possibleValues = new List<int>();
             for (int i = 1; i < 10; i++)
             {
