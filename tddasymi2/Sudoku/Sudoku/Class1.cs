@@ -51,7 +51,28 @@ namespace Sudoku
         public void GivenSodokuWithTwoMissingValuesSolve()
         {
             int[,] input = GenerateSodokuWithBlank(_goldenMaster, 0, 1);
-            input = GenerateSodokuWithBlank(input, 0, 2);
+            input = GenerateSodokuWithBlank(input, 0, 0);
+
+            var solvedSodoku = _sodokuSolver.SolveSodoku(input);
+            Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
+        }
+
+        [TestCase()]
+        public void GivenSodokuWithTwoMissingColumnValuesSolve()
+        {
+            int[,] input = GenerateSodokuWithBlank(_goldenMaster, 1, 0);
+            input = GenerateSodokuWithBlank(input, 0, 0);
+
+            var solvedSodoku = _sodokuSolver.SolveSodoku(input);
+            Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
+        }
+
+        [TestCase()]
+        public void GivenSodokuWithThreeMissingValuesSolve()
+        {
+            int[,] input = GenerateSodokuWithBlank(_goldenMaster, 0, 0);
+            input = GenerateSodokuWithBlank(input, 0, 1);
+            input = GenerateSodokuWithBlank(input, 1, 0);
 
             var solvedSodoku = _sodokuSolver.SolveSodoku(input);
             Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));

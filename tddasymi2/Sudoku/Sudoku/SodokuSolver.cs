@@ -36,6 +36,11 @@ namespace Sudoku
                 }
             }
 
+            if (pointsToSolve.Any())
+            {
+                beingSolved = SolveSodoku(beingSolved);
+            }
+
             return beingSolved;
         }
 
