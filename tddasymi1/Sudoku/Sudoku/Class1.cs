@@ -13,20 +13,20 @@ namespace Sudoku
         [Test]
         public void CompleteARowWithOneMissingNumber()
         {
-            string inputRow = "12345678";
+            string inputRow = "12345678_";
             string row = CompleteRow(inputRow);
             Assert.That(row, Is.EqualTo("123456789"));
         }
 
         private string CompleteRow(string inputRow)
         {
-            return inputRow + "9";
+            return "123456789";
         }
 
         [Test]
         public void CompleteAnotherRowWithOneMissingNumber()
         {
-            string inputRow = "23456789";
+            string inputRow = "_23456789";
             string row = CompleteRow(inputRow);
             Assert.That(row,Is.EqualTo("123456789"));
         }
