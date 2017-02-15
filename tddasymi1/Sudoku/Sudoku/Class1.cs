@@ -10,38 +10,15 @@ namespace Sudoku
     [TestFixture]
     public class Tests
     {
-        [Test]
-        public void CompleteARowWithOneMissingNumber()
-        {
-            string inputRow = "12345678_";
-            string row = CompleteRow(inputRow);
-            Assert.That(row, Is.EqualTo("123456789"));
-        }
+        private readonly SudokuSolver _sudokuSolver = new SudokuSolver();
 
-        private string CompleteRow(string inputRow)
+        [TestCase("12345678_", "123456789")]
+        [TestCase("_23456789", "123456789")]
+        [TestCase("234_56789", "234156789")]
+        public void CompleteRowTests(string input, string expected)
         {
-            if (!inputRow.Contains("1"))
-            {
-                return inputRow.Replace("_", "1");
-            }
-            return "123456789";
+            string actual = _sudokuSolver.CompleteRow(input);
+            Assert.That(actual,Is.EqualTo(expected));
         }
-
-        [Test]
-        public void CompleteAnotherRowWithOneMissingNumber()
-        {
-            string inputRow = "_23456789";
-            string row = CompleteRow(inputRow);
-            Assert.That(row,Is.EqualTo("123456789"));
-        }
-
-        [Test]
-        public void CompleteNonSequentialRowWithOneMissingNumber()
-        {
-            string inputRow = "234_56789";
-            string row = CompleteRow(inputRow);
-            Assert.That(row,Is.EqualTo("234156789"));
-        }
-        
     }
 }
