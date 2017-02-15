@@ -20,20 +20,27 @@ namespace Sudoku
                     }
                 }
             }
-
+            bool solvedSomething = false;
             foreach (Tuple<int, int> point in pointsToSolve)
             {
                 List<int> possibleRowValues = GetPossibleRowValues(input, point.Item1);
                 if (possibleRowValues.Count == 1)
                 {
                     beingSolved[point.Item1, point.Item2] = possibleRowValues[0];
+                    solvedSomething = true;
                 }
 
                 List<int> possibleColumnValues = GetPossibleColumnValues(input, point.Item2);
                 if (possibleColumnValues.Count == 1)
                 {
                     beingSolved[point.Item1, point.Item2] = possibleColumnValues[0];
+                    solvedSomething = true;
                 }
+            }
+
+            if (!solvedSomething && pointsToSolve.Any())
+            {
+                return new int[0,0];
             }
 
             if (pointsToSolve.Any())

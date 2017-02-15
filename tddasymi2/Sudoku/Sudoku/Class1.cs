@@ -30,6 +30,18 @@ namespace Sudoku
         }
 
         [TestCase()]
+        public void GivenSodokuWithMissingValuesToForceUsageOfCellSolve()
+        {
+            var input = GenerateSodokuWithBlank(_goldenMaster, 0, 0);
+            input = GenerateSodokuWithBlank(input, 1, 0);
+            input = GenerateSodokuWithBlank(input, 0, 4);
+            input = GenerateSodokuWithBlank(input, 1, 4);
+
+            var solvedSodoku = _sodokuSolver.SolveSodoku(input);
+            Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
+        }
+
+        [TestCase()]
         public void GivenSodokuWithOneMissingValueSolve()
         {
             var input = GenerateSodokuWithBlank(_goldenMaster, 0,0);
