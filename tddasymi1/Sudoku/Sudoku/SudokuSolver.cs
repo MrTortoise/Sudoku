@@ -1,3 +1,5 @@
+using System;
+
 namespace Sudoku
 {
     public class SudokuSolver
@@ -8,10 +10,24 @@ namespace Sudoku
             {
                 if (!inputRow.Contains(i.ToString()))
                 {
-                    return inputRow.Replace("_", i.ToString());
+                    int index = inputRow.IndexOf("_", StringComparison.Ordinal);
+                    if (index == 0)
+                    {
+                        inputRow = i + inputRow.Substring(1);
+                    }
+                    else if (index == inputRow.Length - 1)
+                    {
+                        inputRow = inputRow.Substring(0, inputRow.Length - 1) + i;
+                    }
+                    else
+                    {
+                        var start = inputRow.Substring(0, index);
+                        var end = inputRow.Substring(index+1);
+                        inputRow = start + i + end;
+                    }
                 }
             }
-            return "borked";
+            return inputRow;
         }
     }
 }
