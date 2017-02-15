@@ -10,12 +10,9 @@ namespace Sudoku
     [TestFixture]
     public class SomeTests
     {
-        [TestCase()]
-        public void GivenSodokuWithOneMissingValueSolve()
-        {
-            var goldenMaster = new int[,]
+        private readonly int[,] _goldenMaster = new int[,]
             {
-                {0, 6, 7, 8, 9, 1, 2, 3, 5},
+                {4, 6, 7, 8, 9, 1, 2, 3, 5},
                 {9, 1, 5, 3, 2, 4, 7, 8, 6},
                 {8, 2, 3, 6, 5, 7, 9, 4, 1},
                 {1, 8, 6, 2, 7, 9, 4, 5, 3},
@@ -26,8 +23,16 @@ namespace Sudoku
                 {6, 7, 4, 9, 8, 5, 3, 1, 2}
             };
 
-            int[,] solvedSodoku = (int[,])goldenMaster.Clone();
-            Assert.That(solvedSodoku, Is.EqualTo(goldenMaster));
+        [TestCase()]
+        public void GivenSodokuWithOneMissingValueSolve()
+        {
+            int[,] input = (int[,]) _goldenMaster.Clone();
+            input[0, 0] = 0;
+
+
+            var solvedSodoku = input;
+            //solvedSodoku[0, 0] = 4;
+            Assert.That(solvedSodoku, Is.EqualTo(_goldenMaster));
         }
     }
 }
